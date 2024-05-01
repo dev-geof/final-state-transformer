@@ -57,18 +57,18 @@ validation_samples: # List of validation samples, each identified by a label.
 # particle and event features of interest 
 #############################################
 
-# List of input final state particle features used for training
+# List of input final state particle features used for training.
 input_variables:
-    - "mass" # particle invariant mass
-    - "pt" # particle transverse momentum 
-    - "eta" # particle pseudorapidity
-    - "phi" # particle azimutal angle 
+    - "mass" # [str] particle invariant mass.
+    - "pt" # [str] particle transverse momentum. 
+    - "eta" # [str] particle pseudorapidity.
+    - "phi" # [str] particle azimutal angle. 
     
-# List of ghost event feature to be included in prediction file for validation
+# List of ghost event feature to be included in prediction file for validation.
 ghost_variables:
-    - "NJets" # number of jets 
-    - "NLeptons" # number of leptons 
-    - "MET" # missing transverse energy
+    - "NJets" # [str] number of jets. 
+    - "NLeptons" # [str] number of leptons. 
+    - "MET" # [str] missing transverse energy.
 
 ######################################
 # general configuration
