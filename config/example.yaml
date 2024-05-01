@@ -113,7 +113,7 @@ transformer_classification_parameters: # Hyperparameters for the transformer cla
     embedding_discrete_threshold : 10 # NO YET AVAILABLE - [int] Threshold of number of unique values in given feature to consider it as discrete variable.
 
 ######################################
-# Validation configuration
+# validation configuration
 ######################################
 
 validation_configuration: # Configuration for the validation phase.
