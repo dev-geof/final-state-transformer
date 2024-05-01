@@ -1,6 +1,6 @@
 # FINAL STATE TRANSFORMER
 
-[Documentation](https://github.com/dev-geof/final-state-transformer/docs/).
+[Documentation](https://github.com/dev-geof/final-state-transformer/docs/index.html)
 
 Machine Learning development toolkit, built upon Transformer encoder network architectures and specifically tailored for the realm of high-energy physics and particle event analysis. This toolkit is designed to excel in the tasks of classification and regression on sequences of particle event final state objects. It capitalizes on the inherent ability of these Transformer architectures to capture intricate patterns and dependencies within sequential data. This makes it particularly well-suited for unraveling the complexities present in the final states of particle events, where the subtle interplay of particles usually demands a sophisticated understanding.
 
