@@ -1,1 +1,131 @@
+#######################################
+# training and validation files 
+#######################################
+training_samples: # List of training samples, each identified by a label.
+    - signal:
+        path: 'path/to/signal_training_file_1.h5:path/to/signal_training_file_2.h5' # [str] Path to the sample data file. Several files can be included by separating them with ":" symbol.
+        event_dataset: 'events' # [str] Name of the event dataset.
+        particle_dataset: 'particles' # [str] Name of the particle dataset.
+        weights: "event_weight" # [str] Name of the MC weight variable.
+        nevents: 100000 # [int] Number of events to use (same for each file included, to be update).
+        cross_section: 1.0 # [int] Process cross section.
+        branching_ratio: 1.0 # [int] Decay branching ratio.
+        acceptance_factor: 1.0 # [int] Additional acceptance correction factor.
+        legend: "signal" # [str] Legend label for the sample.
+        colour: "tab:blue" # [str] Color for visualization.
+        type: "signal" # [str] Type of the sample (signal or background).
+    - background:
+        path: 'path/to/background_training_file_1.h5:path/to/background_training_file_2.h5'
+        event_dataset: 'events'
+        particle_dataset: 'particles'
+        weights: "event_weight"
+        nevents: 100000
+        cross_section: 1.0
+        branching_ratio: 1.0
+        acceptance_factor: 1.0
+        legend: "background"
+        colour: "tab:orange"
+        type: "background"
+  
+validation_samples: # List of validation samples, each identified by a label.
+    - signal:
+        path: 'path/to/signal_validation_file.h5'
+        event_dataset: 'events'
+        particle_dataset: 'particles'
+        weights: "event_weight"
+        nevents: 100000
+        cross_section: 1.0
+        branching_ratio: 1.0
+        acceptance_factor: 1.0
+        legend: "signal"
+        colour: "tab:blue"
+        type: "signal"
+    - background:
+        path: 'path/to/background_validation_file.h5'
+        event_dataset: 'events'
+        particle_dataset: 'particles'
+        weights: "event_weight"
+        nevents: 100000
+        cross_section: 1.0
+        branching_ratio: 1.0
+        acceptance_factor: 1.0
+        legend: "background"
+        colour: "tab:orange"
+        type: "background"
+        
+#############################################
+# particle and event features of interest 
+#############################################
 
+# List of input final state particle features used for training
+input_variables:
+    - "mass" # particle invariant mass
+    - "pt" # particle transverse momentum 
+    - "eta" # particle pseudorapidity
+    - "phi" # particle azimutal angle 
+    
+# List of ghost event feature to be included in prediction file for validation
+ghost_variables:
+    - "NJets" # number of jets 
+    - "NLeptons" # number of leptons 
+    - "MET" # missing transverse energy
+
+######################################
+# general configuration
+######################################
+
+general_configuration: # General settings for the analysis.
+    output_directory: "path/to/output_directory" # [str] Directory for storing output files.
+    training_mode: "classification" # [str] Accepted modes: "classification" or "regression".
+    analysis_title: "my_analysis" # [str] Title for the analysis.
+    use_gpu: True # [bool] Use GPU device when available.
+
+######################################
+# preparation configuration
+######################################
+
+preparation_configuration: # Parameters for data preparation.
+    regression_target: "my_target" # [str] Target variable for regression.
+    regression_target_label: "my_target" # [str] Label for the regression target.
+    nparticles: 5 # [int] Number of selected final state particles.
+    batch_size: 64 # [int] Size of the data batches.
+    norm: True  # [bool] Normalize samples, preserving only shape differences.
+    duplicate: False # [bool] Duplicate training statistics for low input statistics.
+    validation_plots: False # [bool] Produce input data validation plots.
+    validation_plots_log: False # [bool] Use log scale for y-axis.
+
+#######################################
+# model and training hyperparameters
+#######################################
+
+transformer_classification_parameters: # Hyperparameters for the transformer classification model.
+    model_name: "my_model" #  [str] Name of the model.
+    nMHAlayers: 2 # [int] Number of multi-head attention layers.
+    nheads: 15 # [int] Number of attention heads per multi-head attention layer.
+    nDlayers: 1 # [int] Number of dense layers.
+    vdropout: 0.1 # [float] Dropout factor.
+    act_fn: "relu" # [str] Activation function.
+    nepochs: 500 # [int] Number of training epochs.
+    learning_rate: 0.001 # [float] Learning rate.
+    verbose: 1 # [int] Displayed information during training.
+    embedding: True # NO YET AVAILABLE - [bool] Include embedding layer in case of categorical input variables. 
+    embedding_dim: 512 # NO YET AVAILABLE - [int] embedding layer output dimension
+    embedding_discrete_threshold : 10 # NO YET AVAILABLE - [int] Threshold of number of unique values in given feature to consider it as discrete variable.
+
+######################################
+# Validation configuration
+######################################
+
+validation_configuration: # Configuration for the validation phase.
+    luminosity_scaling: 300.0 # [float] Rescale samples to the given luminosity.
+    save_predictions: True # [bool] Save predictions in HFD5 and ROOT file formats during validation process.
+    save_onnx_model: True # [bool] Save best model into ONNX format.
+    plot_model: True # [bool] Plot model architecture.
+    plot_confusion: True # [bool] Plot confusion matrix.
+    plot_scores: True # [bool] Plot training performance scores (accuracy, precision, recall, F1, etc.).
+    plot_discriminant: True # [bool] Plot LLR discriminant distributions.
+    plot_proba: True # [bool] Plot output probabilities distributions.
+    plot_roc: True # [bool] Plot ROC curves.
+    plot_efficiency: True # [bool] Plot efficiency curves.
+    plot_log_probabilities: False # [bool] Plot network output distributions with y-axis log scale
+    plot_log_discriminant: False # [bool] Plot network output distributions with y-axis log scale
