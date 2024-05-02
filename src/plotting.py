@@ -648,7 +648,7 @@ def plotter_residuals(
     weights_list,
     legend_list,
     colour_list,
-    outputname,
+    outputdir,
 ):
     residuals = HistogramPlot(
         n_ratio_panels=1,
