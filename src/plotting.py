@@ -114,7 +114,7 @@ def plotter_correlation_to_target(
     corr_matrix = [[0 for _ in range(nfeatures)] for _ in range(nparticles)]
     for i in range(nparticles):
         for j in range(nfeatures):
-            cov = np.corrcoef(X_train[:, i, j].flatten(), Y_train.flatten())
+            cov = np.corrcoef(input_dataset[:, i, j].flatten(), target_dataset.flatten())
             corr_matrix[i][j] = cov[1, 0]
 
     plt.figure(figsize=(5, 5))
