@@ -754,7 +754,7 @@ def plotter_regression_prediction(
     dist = HistogramPlot(
         n_ratio_panels=0,
         ylabel="Normalized number of events",
-        xlabel=regression_target_label,
+        xlabel=xlabel,
         logy=logy,
         norm=True,
         figsize=(6.5, 5),
