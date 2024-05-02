@@ -688,7 +688,7 @@ def plotter_residuals(
     # probabilities.add_bin_width_to_ylabel()
     residuals.draw()
     residuals.savefig(
-        model_path + "/validation/regression_residuals.pdf", transparent=False
+        outputdir + "/validation/regression_residuals.pdf", transparent=False
     )
 
 
@@ -793,5 +793,5 @@ def plotter_regression_prediction(
         bbox_to_anchor=(0.55, 1),
     )
     dist.savefig(
-        model_path + "/validation/regression_distribution.pdf", transparent=False
+        outputdir + "/validation/regression_distribution.pdf", transparent=False
     )
