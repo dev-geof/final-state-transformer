@@ -737,7 +737,7 @@ def plotter_regression_ratio(
             )
     # probabilities.add_bin_width_to_ylabel()
     ratio.draw()
-    ratio.savefig(model_path + "/validation/regression_ratio.pdf", transparent=False)
+    ratio.savefig(outputdir + "/validation/regression_ratio.pdf", transparent=False)
 
 
 def plotter_regression_prediction(
