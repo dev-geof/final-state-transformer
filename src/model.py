@@ -5,6 +5,32 @@ import tensorflow as tf
 from keras.layers import Layer
 
 
+class FloatEmbedding(tf.keras.layers.Layer):
+    def __init__(self, input_dim, output_dim, **kwargs):
+        super(FloatEmbedding, self).__init__(**kwargs)
+        self.input_dim = input_dim
+        self.output_dim = output_dim
+
+    def build(self, input_shape):
+        self.embedding_weights = self.add_weight(
+            shape=(self.input_dim, self.output_dim),
+            initializer="random_normal",
+            trainable=True,
+        )
+
+    def call(self, inputs):
+        # inputs: (batch_size, seq_length, input_dim)
+        # Reshape to flatten the last dimension
+        inputs_reshaped = tf.reshape(inputs, (-1, self.input_dim))
+
+        # Perform the embedding lookup
+        embedded = tf.matmul(inputs_reshaped, self.embedding_weights)
+
+        # Reshape back to the original shape
+        embedded = tf.reshape(embedded, (-1, tf.shape(inputs)[1], self.output_dim))
+        return embedded
+
+
 def build_transformer(
     nparticles: int,
     nfeatures: int,
@@ -17,7 +43,6 @@ def build_transformer(
     training_mode: str,
     embedding: bool,
     embedding_dim: int,
-    embedding_discrete_threshold: int,
 ) -> tf.keras.Model:
 
     """
@@ -35,7 +60,6 @@ def build_transformer(
     - training_mode (str): Mode of training, either "classification" or "regression".
     - embedding (bool): Whether to include an embedding layer.
     - embedding_dim (int): Dimension of the embedding layer.
-    - embedding_discrete_threshold (int): Threshold of the number of unique values in a given feature to consider it as discrete variable.
 
     Returns:
     - tf.keras.Model: The constructed transformer model.
@@ -48,12 +72,18 @@ def build_transformer(
     # Instantiate a Keras input tensors
     input_tensor = tf.keras.Input(shape=(nparticles, nfeatures))
 
-    # Include embedding
+    # Include embedding - To be completed
     if embedding == True:
 
-        # To be completed
+        # Create embedding layer
+        embedding_layer = FloatEmbedding(input_dim=nfeatures, output_dim=embedding_dim)
 
-        x = input_tensor
+        # Reshape input tensor for embedding layer
+        embedded_input = tf.keras.layers.Reshape((nparticles, nfeatures))(input_tensor)
+
+        # Apply embedding layer
+        x = embedding_layer(embedded_input)
+
     else:
         x = input_tensor
 
