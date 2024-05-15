@@ -27,6 +27,7 @@ setuptools.setup(
         "graphviz>=0.20.1",
         "tf2onnx>=1.12.0",
         "cuda-python>=12.4.0",
+        "scikit-learn>=1.1.2",
     ],
     entry_points={
         "console_scripts": [
