@@ -110,7 +110,6 @@ transformer_classification_parameters: # Hyperparameters for the transformer cla
     verbose: 1 # [int] Displayed information during training.
     embedding: True # NO YET AVAILABLE - [bool] Include embedding layer in case of categorical input variables. 
     embedding_dim: 512 # NO YET AVAILABLE - [int] embedding layer output dimension
-    embedding_discrete_threshold : 10 # NO YET AVAILABLE - [int] Threshold of number of unique values in given feature to consider it as discrete variable.
 
 ######################################
 # validation configuration
@@ -121,6 +120,7 @@ validation_configuration: # Configuration for the validation phase.
     save_predictions: True # [bool] Save predictions in HFD5 and ROOT file formats during validation process.
     save_onnx_model: True # [bool] Save best model into ONNX format.
     plot_model: True # [bool] Plot model architecture.
+    plot_embedding: True # [bool] Plot embedding space from t-SNE
     plot_confusion: True # [bool] Plot confusion matrix.
     plot_scores: True # [bool] Plot training performance scores (accuracy, precision, recall, F1, etc.).
     plot_discriminant: True # [bool] Plot LLR discriminant distributions.
