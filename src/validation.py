@@ -25,6 +25,7 @@ from configuration import (
 from model import (
     get_best_checkpoint,
     get_best_checkpoint_regression,
+    FloatEmbedding,
 )
 from plotting import (
     plotter_confusion_matrix,
@@ -36,6 +37,7 @@ from plotting import (
     plotter_residuals,
     plotter_regression_ratio,
     plotter_regression_prediction,
+    visualize_embedding_space,
 )
 
 from data import (
@@ -95,6 +97,7 @@ def transformer_validation(
     plot_confusion = prime_service["validation_configuration"]["plot_confusion"]
     plot_model = prime_service["validation_configuration"]["plot_model"]
     plot_scores = prime_service["validation_configuration"]["plot_scores"]
+    plot_embedding = prime_service["validation_configuration"]["plot_embedding"]
     logy = prime_service["validation_configuration"]["plot_log_probabilities"]
 
     feature_names = prime_service["input_variables"]
@@ -104,26 +107,30 @@ def transformer_validation(
 
     # Loading models
     logging.info(colored("Loading trained model", "yellow"))
-    if training_mode == "classification":
-        classifier = tf.keras.models.load_model(
-            get_best_checkpoint(
-                str(model_path) + "/classification_training/checkpoints/"
-            ),
-        )
-    elif training_mode == "regression":
-        classifier = tf.keras.models.load_model(
-            get_best_checkpoint_regression(
-                str(model_path) + "/regression_training/checkpoints/"
+
+    # Load the model from the checkpoint with custom object scope (for embedding)
+    with tf.keras.utils.custom_object_scope({"FloatEmbedding": FloatEmbedding}):
+
+        if training_mode == "classification":
+            classifier = tf.keras.models.load_model(
+                get_best_checkpoint(
+                    str(model_path) + "/classification_training/checkpoints/"
+                ),
             )
-        )
-    else:
-        logging.info(
-            colored(
-                "Training mode not supported (accepted mode: classification or regression)",
-                "red",
+        elif training_mode == "regression":
+            classifier = tf.keras.models.load_model(
+                get_best_checkpoint_regression(
+                    str(model_path) + "/regression_training/checkpoints/"
+                )
             )
-        )
-        sys.exit(0)
+        else:
+            logging.info(
+                colored(
+                    "Training mode not supported (accepted mode: classification or regression)",
+                    "red",
+                )
+            )
+            sys.exit(0)
 
     # Plot the model architecture and save it to a file
     # os.makedirs(model_path + "/validation", exist_ok=True)
@@ -366,6 +373,35 @@ def transformer_validation(
         logging.info(
             colored(f"Validation sample predictions saved in HDF5 file", "yellow")
         )
+
+    ######################
+
+    # Visualizing embedding space
+    logging.info(colored("Visualizing embedding space ", "yellow"))
+
+    if plot_embedding == True:
+
+        inputs = []
+        embeddings = []
+
+        for s in range(len(inputs_list)):
+            temp_input = classifier.get_layer("input_1")(inputs_list[s][:100])
+            batch_size_in, sequence_length_in, embedding_dim_in = temp_input.shape
+            temp_input = np.reshape(
+                temp_input, (batch_size_in * sequence_length_in, embedding_dim_in)
+            )
+            inputs.append(temp_input)
+
+            temp_embedding = classifier.get_layer("float_embedding")(
+                inputs_list[s][:100]
+            )
+            batch_size, sequence_length, embedding_dim = temp_embedding.shape
+            temp_embedding = np.reshape(
+                temp_embedding, (batch_size * sequence_length, embedding_dim)
+            )
+            embeddings.append(temp_embedding)
+
+        visualize_embedding_space(inputs, embeddings, legend_list, model_path)
 
     ######################
 
