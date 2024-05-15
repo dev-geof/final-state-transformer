@@ -1,6 +1,7 @@
 import numpy as np
 import itertools
 import matplotlib.pyplot as plt
+from sklearn.manifold import TSNE
 from puma import Histogram, HistogramPlot
 
 
@@ -795,3 +796,57 @@ def plotter_regression_prediction(
     dist.savefig(
         outputdir + "/validation/regression_distribution.pdf", transparent=False
     )
+
+# Function to visualize the embedding space
+def visualize_embedding_space(
+    inputs,
+    embeddings,
+    legend,
+    model_path,
+):
+
+    # Plot the embeddings in 3D space
+    fig = plt.figure(figsize=(10, 5))
+
+    # Plot 0 vs 1
+    ax1 = fig.add_subplot(121)
+    ax1.set_title("Input Space Visualization")
+    ax1.set_xlabel("t-SNE Dimension 1")
+    ax1.set_ylabel("t-SNE Dimension 2")
+
+    # Plot 0 vs 2
+    ax2 = fig.add_subplot(122)
+    ax2.set_title("Embedding Space Visualization")
+    ax2.set_xlabel("t-SNE Dimension 1")
+    ax2.set_ylabel("t-SNE Dimension 2")
+
+    # Loop over processed
+    for s in range(len(inputs)):
+
+        # Perform PCA to reduce dimensionality
+        tsne_inputs = TSNE(n_components=2, random_state=42)
+        inputs_tsne = tsne_inputs.fit_transform(inputs[s])
+        ax1.scatter(
+            inputs_tsne[:, 0], inputs_tsne[:, 1], marker=".", alpha=0.5, label=legend[s]
+        )
+
+    # Loop over processed
+    for s in range(len(embeddings)):
+
+        # Perform PCA to reduce dimensionality
+        tsne = TSNE(n_components=2, random_state=42)
+        embeddings_tsne = tsne.fit_transform(embeddings[s])
+        ax2.scatter(
+            embeddings_tsne[:, 0],
+            embeddings_tsne[:, 1],
+            marker=".",
+            alpha=0.5,
+            label=legend[s],
+        )
+
+    plt.tight_layout()
+    ax1.legend()
+    ax2.legend()
+    plt.savefig(model_path + "/validation/embedding_space_tsne.pdf", transparent=False)
+    plt.close()
+    
