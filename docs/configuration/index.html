@@ -674,8 +674,8 @@
 <li><code>nepochs</code>: [<em>int</em>] Number of training epochs.</li>
 <li><code>learning_rate</code>: [<em>float</em>] Learning rate.</li>
 <li><code>verbose</code>: [<em>int</em>] Displayed information during training.</li>
-<li><code>embedding</code>: [<em>bool</em>] Include an embedding layer for categorical input variables (currently not operational).</li>
-<li><code>embedding_dim</code>: [<em>int</em>] Dimension of the embedding layer (currently not operational).</li>
+<li><code>embedding</code>: [<em>bool</em>] Include an embedding layer.</li>
+<li><code>embedding_dim</code>: [<em>int</em>] Dimension of the embedding layer.</li>
 </ul>
 </li>
 </ul>
@@ -686,6 +686,7 @@
 <li><code>save_predictions</code>: [<em>bool</em>] Save predictions in HFD5 and ROOT file formats during validation process.</li>
 <li><code>save_onnx_model</code>: [<em>bool</em>] Save best model into ONNX format.</li>
 <li><code>plot_model</code>: [<em>bool</em>] Plot model architecture.</li>
+<li><code>plot_embedding</code>: [<em>bool</em>] Plot embedding visualization.</li>
 <li><code>plot_confusion</code>: [<em>bool</em>] Plot confusion matrix.</li>
 <li><code>plot_scores</code>: [<em>bool</em>] Plot training performance scores (accuracy, precision, recall, F1, etc.).</li>
 <li><code>plot_discriminant</code>: [<em>bool</em>] Plot LLR discriminant distributions.</li>
