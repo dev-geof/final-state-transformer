@@ -108,8 +108,8 @@ transformer_classification_parameters: # Hyperparameters for the transformer cla
     nepochs: 500 # [int] Number of training epochs.
     learning_rate: 0.001 # [float] Learning rate.
     verbose: 1 # [int] Displayed information during training.
-    embedding: True # NO YET AVAILABLE - [bool] Include embedding layer in case of categorical input variables. 
-    embedding_dim: 512 # NO YET AVAILABLE - [int] embedding layer output dimension
+    embedding: True # [bool] Include embedding layer in case of categorical input variables. 
+    embedding_dim: 512 # [int] embedding layer output dimension
 
 ######################################
 # validation configuration
