@@ -391,6 +391,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#embedding-layer" class="md-nav__link">
+    Embedding Layer
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#multi-head-attention-layer" class="md-nav__link">
     Multi-Head Attention Layer
   </a>
@@ -535,6 +542,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#embedding-layer" class="md-nav__link">
+    Embedding Layer
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#multi-head-attention-layer" class="md-nav__link">
     Multi-Head Attention Layer
   </a>
@@ -584,10 +598,13 @@
 
 <h1 id="transformer-model">Transformer Model</h1>
 <p>An implementation of a modular Transformer encoder model is available in the <code>model.py</code> script, where the <code>build_transformer</code> function builds a multi-head attention-based classifier model using TensorFlow's Keras API. The main configurable hyper-parameters are detailed above in the <a href="documentation/configuration.md">configuration file section</a>.</p>
-<p>Illustration of a configurable model architecture with 2 multi-head attention layers and 3 dense layers for a 4-classes classification problem:   </p>
+<p>Illustration of a configurable model architecture with 1 embedding layer, 2 multi-head attention layers and 1 dense layer for a 4-classes classification problem:   </p>
 <p><img alt="Example of Model Architecture" src="../img/model_example_3d.png" /></p>
 <h2 id="input-layer">Input Layer</h2>
 <p>The input layer sets the stage for passing input data into the subsequent layers of the Transformer model. A Keras input tensor is instantiated using <code>tensorflow.keras.Input</code> to create a placeholder tensor that is used as the input in the model. The input tensor is expetected to have a shape of <code>(nparticles, nfeatures)</code>, where <code>nparticles</code> represents the number of final state particles in the input sequence, and <code>nfeatures</code> represents the number of kinematic features for each particle.</p>
+<h2 id="embedding-layer">Embedding Layer</h2>
+<p>An optional embedding layer can be instrumental for eleviating performance of the network. For instance it can be used for transforming categorical or discrete input features into dense, continuous vector representations that can be learned during training. For tasks that require a better data representation than the input one, such as unfolding the input space to reveal intricate information that the network can better utilize, the embedding layer also proves to be invaluable, enabling the model to uncover and effectively utilize nuanced patterns and relationships within the input data. By learning the embeddings from the input data, the model can adapt to the specific task at hand, ultimately enhancing its ability to extract meaningful features and make accurate predictions. </p>
+<p>A custom <code>FloatEmbedding</code> class initializes embedding weights in its constructor, which are randomly initialized and trainable, and then performs the embedding lookup operation in its call method. The embedding layer is optionally included based on the <code>embedding</code> parameter, allowing for the transformation of input. The <code>embedding_dim</code> parameter defines the dimension of the embedded space for which the data from input feature space is project into. During the training process, the model learns the optimal transformation matrix built upon the trainable parameters. Purely linear transformation is considered so far, no additional activation function is included.</p>
 <h2 id="multi-head-attention-layer">Multi-Head Attention Layer</h2>
 <p>The attention mechanism in multi-head attention layers is a crucial component in Transformer models. It allows a model to weigh the importance of different final state particles in the input sequence when processing each event. This mechanism enables the model to capture long-range dependencies and relationships between the final state particles. In a multi-head attention layer, the attention mechanism is applied multiple times in parallel, each with its own set of learnable parameters. This results in multiple sets of attention weights being computed simultaneously, providing the model with multiple perspectives or "heads" to attend to different parts of the input sequence.</p>
 <p>In the context of multi-head attention mechanisms, the input sequence is transformed into the so-called query <span class="arithmatex">\(Q\)</span>, key <span class="arithmatex">\(K\)</span> and value <span class="arithmatex">\(V\)</span> matrices which play a crucial roles in aggregating information across the input sequence. The query <span class="arithmatex">\(Q\)</span>, key <span class="arithmatex">\(K\)</span> and value <span class="arithmatex">\(V\)</span> matrices are obtained by linear transformations of the input tensor <span class="arithmatex">\(Q=XW_{Q}\)</span>, <span class="arithmatex">\(K=KW_{K}\)</span> and <span class="arithmatex">\(V=VW_{V}\)</span>, where <span class="arithmatex">\(W_{Q}\)</span>, <span class="arithmatex">\(W_{K}\)</span> and <span class="arithmatex">\(W_{V}\)</span> are learnable weight matrices. These learnable parameters are optimized during the training process allowing the model to adapt and learn representations that are most relevant for the tast at hand. </p>
