@@ -502,7 +502,7 @@ def transformer_validation(
                 x_classes=legend_list,
                 y_classes=val_legend_list,
                 normalize=True,
-                title="FINAL STATE TRANSFORMER 0.1 - Confusion Matrix",
+                title="FINAL STATE TRANSFORMER - Confusion Matrix",
                 outputdir=model_path
                 + "/validation/validation_confusion_martix_val_"
                 + training_mode
