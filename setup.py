@@ -5,19 +5,19 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="final-state-transformer",
-    version="0.1.0",
+    version="1.0.0",
     author="Geoffrey Gilles",
     description="Machine Learning development toolkit built upon Transformer encoder network architectures and tailored for the realm of high-energy physics and particle event analysis.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/dev-geof/final-state-transformer",
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages(where='src'),
+    package_dir={'': 'src'},
     install_requires=[
         "h5py>=3.8.0",
-        "matplotlib>=3.5.3",
+        "matplotlib>=3.5.1",
         "numpy>=1.24.2",
-        "puma>=0.0.0rc1",
-        "puma_hep>=0.2.2",
+        "puma-hep>=0.2.2",
         "PyYAML>=6.0",
         "scikit_learn>=1.2.2",
         "tensorflow>=2.11.0",
@@ -31,9 +31,9 @@ setuptools.setup(
     ],
     entry_points={
         "console_scripts": [
-            "fst-preparation=src.preparation:main",
-            "fst-training=src.training:main",
-            "fst-validation=src.validation:main",
+            "fst-preparation=preparation:main",
+            "fst-training=training:main",
+            "fst-validation=validation:main",
         ],
     },
     classifiers=[
