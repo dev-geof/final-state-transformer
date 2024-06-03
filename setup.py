@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="final-state-transformer",
-    version="1.0.0",
+    version="1.0.1",
     author="Geoffrey Gilles",
     description="Machine Learning development toolkit built upon Transformer encoder network architectures and tailored for the realm of high-energy physics and particle event analysis.",
     long_description=long_description,
