@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Gilles"
+  given-names: "Geoffrey"
+  orcid: "https://orcid.org/0000-0000-0000-0000"
+title: "Final State Transformer"
+version: 1.0.1
+date-released: 2024-06-03
+url: "https://github.com/dev-geof/final-state-transformer"
