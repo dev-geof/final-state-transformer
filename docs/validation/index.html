@@ -13,7 +13,7 @@
     
     
       
-        <title>Validation - FINAL STATE TRANSFORMER</title>
+        <title>Performance Assessment - FINAL STATE TRANSFORMER</title>
       
     
     
@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#validation" class="md-skip">
+        <a href="#performance-assessment" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Validation
+              Performance Assessment
             
           </span>
         </div>
@@ -214,31 +214,7 @@
 
   <li class="md-tabs__item">
     <a href="../input/" class="md-tabs__link">
-      Input Data Format
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../configuration/" class="md-tabs__link">
-      Configuration File
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../preparation/" class="md-tabs__link">
-      Data Preparation
+      Input Data Preparation
     </a>
   </li>
 
@@ -264,7 +240,43 @@
 
   <li class="md-tabs__item">
     <a href="./" class="md-tabs__link md-tabs__link--active">
-      Validation
+      Performance Assessment
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../configuration/" class="md-tabs__link">
+      Configuration
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../troubleshooting/" class="md-tabs__link">
+      Troubleshouting
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../copyrights/" class="md-tabs__link">
+      Copyrights and Credits
     </a>
   </li>
 
@@ -366,37 +378,7 @@
   
     <li class="md-nav__item">
       <a href="../input/" class="md-nav__link">
-        Input Data Format
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../configuration/" class="md-nav__link">
-        Configuration File
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../preparation/" class="md-nav__link">
-        Data Preparation
+        Input Data Preparation
       </a>
     </li>
   
@@ -435,12 +417,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Validation
+          Performance Assessment
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Validation
+        Performance Assessment
       </a>
       
         
@@ -497,6 +479,51 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        Troubleshouting
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../copyrights/" class="md-nav__link">
+        Copyrights and Credits
+      </a>
     </li>
   
 
@@ -582,21 +609,14 @@
   </a>
 
 
-<h1 id="validation">Validation</h1>
-<p>Finally, the <code>utils/validation.py</code> script defines a few functions for validating a transformer-based machine learning model that was previously trained on a dataset. 
-<div class="highlight"><pre><span></span><code>usage: fst-validation [-h] [--configfile CONFIGFILE]
-
-optional arguments:
-  -h, --help                    Show this help message and exit
-  --configfile CONFIGFILE   Configuration file
-</code></pre></div></p>
-<p>This script is dedicated to the validation step of a trained Transformer model. The script loads the trained model, performs predictions on validation datasets, and conducts various validation tasks based on user-defined options. These tasks include saving predictions, plotting model architecture, computing and visualizing confusion matrices, generating ROC curves, plotting efficiency curves, and displaying probability distributions. The script is adaptable to both classification and regression scenarios, offering different visualization and evaluation methods based on the selected training mode. The command-line interface allows users to specify the configuration file path when executing the script, contributing to ease of use and configurability. Overall, the script provides a comprehensive set of validation tools for assessing the performance of a Transformer model on new data.</p>
+<h1 id="performance-assessment">Performance Assessment</h1>
+<p>The validation scripts load the trained model, performs predictions on validation datasets, and conducts various validation tasks based on user-defined options. These tasks include saving predictions, plotting model architecture, computing and visualizing confusion matrices, generating ROC curves, plotting efficiency curves, and displaying probability distributions. The script is adaptable to both classification and regression scenarios, offering different visualization and evaluation methods based on the selected training mode. The command-line interface allows users to specify the configuration file path when executing the script, contributing to ease of use and configurability. Overall, the script provides a comprehensive set of validation tools for assessing the performance of a Transformer model on new data.</p>
 <h2 id="confusion-matrix">Confusion Matrix</h2>
 <p>A confusion matrix is a key performance measurement tool which allows you to visualise, in a tabular format, the performance of a classifier by comparing predicted classes against true classes. It helps identifying which classes are being confused with each other, giving insights into areas where your model may need improvements. </p>
 <p>Beyond the various metrics which can be calculated, such as accuracy, precision, recall, specificity or F1 score, the examination of its cells can provide insights into the types of errors made by the model. For example, a high number of false positives may indicate that the model is overly sensitive and is incorrectly predicting positive outcomes too often. On the other hand, a high number of false negatives may suggest that the model is missing important patterns or features in the data. </p>
 <p><img alt="Confusion matrix" src="../img/confusion.png" /></p>
 <h2 id="training-performance-scores">Training Performance Scores</h2>
-<p>Several metrics are used in evaluating the performance of classification models.</p>
+<p>Several scores are computed and plotted, in order to evaluate the performance of classification models.</p>
 <p><strong>Accuracy</strong>: Accuracy is a measure of the overall correctness of a model. It is calculated as the ratio of correctly predicted instances to the total instances in the dataset: </p>
 <p><span class="arithmatex">\(A = \frac{\text{Number of Correct Predictions}}{\text{Total Number of Predictions}}.\)</span></p>
 <p><strong>Precision</strong>: Precision is the measure of the correctness of positive predictions made by the model. It is the ratio of true positive predictions to the total predicted positive instances:</p>
@@ -652,6 +672,21 @@ optional arguments:
           </div>
         </a>
       
+      
+        
+        <a href="../configuration/" class="md-footer__link md-footer__link--next" aria-label="Next: Configuration" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Configuration
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
       
     </nav>
   
