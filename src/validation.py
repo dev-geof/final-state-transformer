@@ -350,7 +350,7 @@ def transformer_validation(
     # Save predictions into hdf5
     if save_predictions == True:
 
-        f = h5py.File(str(model_path) + "/validation/prediction.h5", "w")
+        f = h5py.File(str(model_path) + "/validation/prediction.keras", "w")
 
         for d in range(len(val_sample_list)):
 
