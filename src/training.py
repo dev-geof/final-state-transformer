@@ -190,11 +190,11 @@ def transformer_training(
 
     class_CPname = (
         outputdir
-        + "/classification_training/checkpoints/model.{epoch:02d}-loss-{loss:.5f}-{val_loss:.5f}-acc-{accuracy:.5f}-{val_accuracy:.5f}-auc-{auc:.5f}-{val_auc:.5f}.h5"
+        + "/classification_training/checkpoints/model.{epoch:02d}-loss-{loss:.5f}-{val_loss:.5f}-acc-{accuracy:.5f}-{val_accuracy:.5f}-auc-{auc:.5f}-{val_auc:.5f}.keras"
     )
     reg_CPname = filepath = (
         outputdir
-        + "/regression_training/checkpoints/model-{epoch:02d}-loss-{loss:.5f}-{val_loss:.5f}-mse-{mean_squared_error:.5f}-{val_mean_squared_error:.5f}.h5"
+        + "/regression_training/checkpoints/model-{epoch:02d}-loss-{loss:.5f}-{val_loss:.5f}-mse-{mean_squared_error:.5f}-{val_mean_squared_error:.5f}.keras"
     )
     CPoutput = class_CPname if training_mode == "classification" else reg_CPname
 
