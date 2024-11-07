@@ -194,6 +194,7 @@ def training_data_extraction(
 
         plotter_preparation(
             datasets_list=datasets_list,
+            sample_list=keyname_list,
             weights_list=weights_list,
             legend_list=legend_list,
             colour_list=colour_list,
