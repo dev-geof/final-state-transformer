@@ -5,8 +5,91 @@ from sklearn.manifold import TSNE
 from puma import Histogram, HistogramPlot
 
 
+def weighted_mean(data, weights):
+    """
+    Calculate the weighted mean of a dataset.
+    
+    Args:
+        data (array-like): Input data array with shape (n_samples, n_features).
+        weights (array-like): Weight array corresponding to the data points. Should have the same length as data.
+        
+    Returns:
+        array: Weighted mean of the data along each feature (column).
+    """
+    weights = np.maximum(weights, 0)  # Ensure non-negative weights
+    return np.average(data, axis=0, weights=weights)
+
+
+def weighted_covariance(data, weights, mean):
+    """
+    Calculate the weighted covariance matrix of a dataset.
+    
+    Args:
+        data (array-like): Input data array with shape (n_samples, n_features).
+        weights (array-like): Weight array corresponding to the data points. Should have the same length as data.
+        mean (array-like): Weighted mean of the data.
+        
+    Returns:
+        array: Weighted covariance matrix of the data.
+    """
+    weights = np.maximum(weights, 0)  # Ensure non-negative weights
+    data_centered = data - mean  # Center data by subtracting the weighted mean
+    weighted_cov = np.cov(data_centered, rowvar=False, aweights=weights)  # Calculate weighted covariance
+    return weighted_cov
+
+
+def weighted_std(data, weights, mean):
+    """
+    Calculate the weighted standard deviation of a dataset.
+    
+    Args:
+        data (array-like): Input data array with shape (n_samples, n_features).
+        weights (array-like): Weight array corresponding to the data points. Should have the same length as data.
+        mean (array-like): Weighted mean of the data.
+        
+    Returns:
+        array: Weighted standard deviation of the data along each feature (column).
+    """
+    weights = np.maximum(weights, 0)  # Ensure non-negative weights
+    data_centered = data - mean  # Center data
+    weighted_variance = np.average(data_centered**2, axis=0, weights=weights)  # Weighted variance
+    return np.sqrt(weighted_variance)
+
+
+def weighted_corrcoef(data, weights):
+    """
+    Calculate the weighted correlation matrix of a dataset.
+    
+    Args:
+        data (array-like): Input data array with shape (n_samples, n_features).
+        weights (array-like): Weight array corresponding to the data points. Should have the same length as data.
+        
+    Returns:
+        array: Weighted correlation matrix of the data.
+    """
+    weights = np.maximum(weights, 0)  # Ensure non-negative weights
+
+    # Calculate weighted mean
+    mean = weighted_mean(data, weights)
+
+    # Calculate weighted covariance matrix
+    weighted_cov = weighted_covariance(data, weights, mean)
+
+    # Calculate weighted standard deviations
+    stddev = weighted_std(data, weights, mean)
+
+    # Calculate the correlation matrix by normalizing the covariance
+    corr_matrix = weighted_cov / np.outer(stddev, stddev)
+
+    # Clip values to ensure they are within the range [-1, 1] due to numerical errors
+    corr_matrix = np.clip(corr_matrix, -1, 1)
+
+    return corr_matrix
+
+
 def plotter_preparation(
     datasets_list,
+    sample_list,
     weights_list,
     legend_list,
     colour_list,
@@ -15,8 +98,50 @@ def plotter_preparation(
     log_scale,
     outputdir,
 ):
+    """
+    Prepare and plot the correlation matrices and distributions for multiple datasets.
+    
+    Args:
+        datasets_list (list of array-like): List of datasets, where each dataset is a 2D array (samples, features).
+        sample_list (list of str): List of sample names corresponding to each dataset.
+        weights_list (list of array-like): List of weights for each dataset.
+        legend_list (list of str): List of legend labels for each dataset.
+        colour_list (list of str): List of colors for each dataset in plots.
+        nparticles (int): Number of particles per sample.
+        fields_of_interest (list of str): List of field names that are of interest for plotting.
+        log_scale (bool): Whether to use a logarithmic scale for the y-axis in histograms.
+        outputdir (str): Directory to save the output plots.
+    """
+    # Loop over datasets to calculate and plot correlation matrices
+    for d, (dataset, weights) in enumerate(zip(datasets_list, weights_list)):
+        # Flatten each particle's fields into a single matrix for correlation calculation
+        data_reshaped = dataset.reshape(-1, len(fields_of_interest) * nparticles)
 
-    # loop over the input variables
+        # Calculate the weighted correlation matrix
+        corr_matrix = weighted_corrcoef(data_reshaped, weights)
+        
+        # Generate labels for each feature
+        labels = [f"{field}_{p}" for p in range(nparticles) for field in fields_of_interest]
+
+        # Plot correlation matrix with matplotlib
+        plt.figure(figsize=(10, 8))
+        im = plt.imshow(corr_matrix, vmin=-1.0, vmax=1.0, cmap='coolwarm', interpolation='nearest')
+        plt.colorbar(im)
+
+        # Add text annotations with correlation values (2 decimal places)
+        for i in range(corr_matrix.shape[0]):
+            for j in range(corr_matrix.shape[1]):
+                plt.text(j, i, f"{corr_matrix[i, j]:.2f}", 
+                         ha="center", va="center", color="black" if abs(corr_matrix[i, j]) < 0.5 else "white")
+
+        plt.xticks(ticks=np.arange(len(labels)), labels=labels, rotation=90)
+        plt.yticks(ticks=np.arange(len(labels)), labels=labels)
+        plt.title(f"Correlation Matrix for Dataset {legend_list[d]}")
+        plt.tight_layout()
+        plt.savefig(f"{outputdir}/correlation_matrix_{sample_list[d]}.pdf")
+        plt.close()
+
+    # loop over the input variables to plot their distributions
     for v in range(len(fields_of_interest)):
         var = str(fields_of_interest[v])
 
